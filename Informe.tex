@@ -1,5 +1,11 @@
-\documentclass[12pt]{report}
-\usepackage[left=2.5cm,right=2.5cm,top=3cm,bottom=3cm]{geometry}
+\documentclass[a4paper, 12pt]{report}
+\usepackage[a4paper, %margenes de pagina
+  left=2.5cm,
+  right=2.5cm,
+  top=1.5cm,
+  bottom=2cm,
+  includehead
+]{geometry}
 \usepackage{fancyhdr}
 \usepackage{etoolbox}
 \usepackage{titlesec}
@@ -7,59 +13,37 @@
 \usepackage{tikz}
 \usepackage{pgf}
 \usetikzlibrary{positioning}
-\usepackage{listings}
-\usepackage{xcolor}
 \UseRawInputEncoding
+\usepackage{enumitem}
 
-\pagestyle{fancy}
-\fancyhf{} 
-\fancyhead[L]{UTN-FRC}
-\fancyhead[C]{Informatica 2}
-\fancyhead[R]{2R3}
-\renewcommand{\headrulewidth}{0.4pt}
-\fancyfoot[C]{\vfill\thepage}
-
-
-\definecolor{codegreen}{rgb}{0,0.6,0}
-\definecolor{codegray}{rgb}{0.5,0.5,0.5}
-\definecolor{codepurple}{rgb}{1.58,0,0.82}
-\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
-
-% Definir el estilo de código personalizado
-\lstdefinestyle{mystyle}{
-    backgroundcolor=\color{white},   % Fondo blanco
-    commentstyle=\color{codegreen},  % Comentarios en verde
-    keywordstyle=\color{magenta},    % Palabras clave en magenta
-    numberstyle=\tiny\color{red},    % Números de línea en rojo
-    stringstyle=\color{codepurple},  % Cadenas de texto en morado
-    basicstyle=\ttfamily\footnotesize, % Estilo de fuente monoespaciada, tamaño pequeño
-    frame=single,                   % Marco alrededor del código
-    breakatwhitespace=false,         % No hacer cortes en los espacios
-    breaklines=true,                 % Ajustar las líneas largas
-    captionpos=b,                    % Posición del título del código
-    keepspaces=true,                 % Mantener los espacios
-    numbers=left,                    % Mostrar números de línea a la izquierda
-    numbersep=5pt,                   % Separación entre números de línea y el código
-    showspaces=false,                % No mostrar espacios explícitamente
-    showstringspaces=false,          % No mostrar espacios dentro de las cadenas
-    showtabs=false,                  % No mostrar tabulaciones
-    tabsize=2,                       % Tamaño de tabulaciones
-    morecomment=[l][\color{orange}]{/**},  % Comentarios de Doxygen en naranja
-    morecomment=[l][\color{orange}]{*/}     % Cierre de comentarios de Doxygen en naranja
+\usepackage{minted}
+\setminted{
+    linenos,          % Activa la numeración de líneas
+    frame=single,      % Opcional: agrega un marco al código
+    framesep=2mm,     % Opcional: separación entre el marco y el texto
+    fontsize=\scriptsize,   % Opcional: cambia el tamaño de la fuente
+    breaklines
 }
 
-\lstset{style=mystyle}  % Aplicar el estilo definido
-
+\pagestyle{fancy}
+\pagestyle{fancy}
+\lhead{UTN-FRC}
+\chead{Informatica II}
+\rhead{2R3}
+\cfoot{\thepage}
+\setlength{\headwidth}{\textwidth} % Hace que el ancho del encabezado coincida con el ancho del texto
+\setlength{\headheight}{10pt}  % Ajusta la altura del encabezado
+\setlength{\headsep}{20pt}     % Ajusta la separación entre el encabezado y el contenido
 \patchcmd{\chapter}{\thispagestyle{plain}}{\thispagestyle{fancy}}{}{}
 
 \DeclareMathSizes{12}{13}{6}{5}
 
+
 \title{%
   \fontsize{25}{0}\selectfont Universidad Tecnológica Nacional \\
   \fontsize{22}{30}\selectfont Informatica 2 \\
-  \fontsize{18}{25}\selectfont Presentacion Proyecto final\\
-  \fontsize{18}{25}\selectfont Sistema Alternativo de Pago para el Estacionamiento Institucional\\
-  \fontsize{18}{25}\selectfont SAPEI
+  \fontsize{18}{25}\selectfont SAPEI\\
+  \fontsize{16}{20}\selectfont Sistema Alternativo de Pago para el Estacionamiento Institucional\\
 }
 \author{
 Cortesini Luciano - 402719\\
@@ -69,6 +53,7 @@ Noccetti Santino - 405947 \\
 Palombo Franco - 401910
 }
 
+\date{19 / 11 / 2024}
 
 \titleformat{\chapter}[block]
   {\normalfont\huge\bfseries}{}{0pt}{\Huge}
@@ -88,154 +73,157 @@ Palombo Franco - 401910
 \begin{document}
 \maketitle
 \section{Problema y Solucion Planteada}
- El problema que observamos esta en el transito generado por los vehiculos, siendo este generado por la fila de autos que hay en el ingreso al estacionamiento de la facultad, lo que obstruye la via publicam reduciendo el flujo de los vehiculos y produciendo embotellamientos. La razon por la cual se genera la fila de autosm es por la lentitud del sistema de ingreso al estacionamiento. Este sistema requiere de un operario que ingrese la patente del vehiculo de manera manual, el cual procede a generar un ticket y automaticamente se le descuenta el monto correspondiente al usuario.
+    El problema que observamos esta en el transito generado por los vehiculos, siendo este generado por la fila de
+    autos que hay en el ingreso al estacionamiento de la facultad, lo que obstruye la via publicam reduciendo el flujo
+    de los vehiculos y produciendo embotellamientos. La razon por la cual se genera la fila de autosm es por la
+    lentitud del sistema de ingreso al estacionamiento. Este sistema requiere de un operario que ingrese la patente
+    del vehiculo de manera manual, el cual procede a generar un ticket y automaticamente se le descuenta el monto
+    correspondiente al usuario.
 
-Como grupo se nos ocurrio la idea de acelerar una parte del proceso y es a la hora de pagar, en la cual implementando un sistemas Contactless con tarjetas RFID unicas para cada persona con la informacion correspondiente. De este modo, no es necesario que el operario tenga que ingresar la patente del vehiculo manualmente para poder generar el ticket, ya que se utilizara tanto para el ingreso y egreso la misma tarjeta. De esta forma, se puede mantener un conteo de vehiculos en el estacionamiento y ademas evitar la cantidad de papel que se utiliza de forma deficiente en un dia.
+
+    Como grupo se nos ocurrio la idea de acelerar una parte del proceso y es a la hora de pagar, en la cual
+    implementando un sistemas Contactless con tarjetas RFID unicas para cada persona con la informacion
+    correspondiente. De este modo, no es necesario que el operario tenga que ingresar la patente del vehiculo
+    manualmente para poder generar el ticket, ya que se utilizara tanto para el ingreso y egreso la misma tarjeta. De
+    esta forma, se puede mantener un conteo de vehiculos en el estacionamiento y ademas evitar la cantidad de papel
+    que se utiliza de forma deficiente en un dia.
 
 \section{Planificacion}
- Para poder llevar a cabo esta idea, empezamos por la organizacion de la misma y las necesidades o posibles problemas del proyecto. Para resolver lo primero, decidimos usar Github y su sistema ramas creando asi los repositorios necesarios para distribuir de forma efectiva las partes de trabajo y asi el proyecto pueda avanzar. Creando adentro de los mismos repositorios los problemas y necesidades que surgian, asignandolos asi entre nosotros. 
+    Para poder llevar a cabo esta idea, empezamos por la organizacion de la misma y las necesidades o posibles
+    problemas del proyecto. Para resolver lo primero, decidimos usar Github y su sistema ramas creando asi los
+    repositorios necesarios para distribuir de forma efectiva las partes de trabajo y asi el proyecto pueda avanzar.
+    Creando adentro de los mismos repositorios los problemas y necesidades que surgian, asignandolos asi entre nosotros.
+
 \section{Partes del Proyecto}
- Para resolver la segunda parte se penso por dividir el proyecto en proyecto en 5 partes, teniendo asi:
- \begin{enumerate}
-     \item Hardware
-     \item Firmware
-     \item Core
-     \item Client
-     \item Server
- \end{enumerate}
-\newpage
+    Para resolver la segunda parte se penso por dividir el proyecto en proyecto en 4 partes, teniendo asi:
+    \begin{enumerate}
+        \item Hardware
+        \item Firmware
+        \item Core
+        \item Client
+    \end{enumerate}
+    \newpage
+
 \section{Hardware}
-Los componentes usados para el hardware fueron:
-\begin{enumerate}
-    \item Arduino Nano: 
-    \item RC522 (Modulo RFID)
-    \item transistor NPN BC548
-    \item 3 Leds
-    \item Buzzer Activo
-    \item Protoboard
-    \item Resistencias y cables
-\end{enumerate}
+    Los componentes usados para el hardware fueron:
+    \begin{enumerate}
+        \item Arduino Nano
+        \item RC522 (Modulo RFID)
+        \item transistor NPN BC548
+        \item 3 Leds
+        \item Buzzer Activo
+        \item Protoboard
+        \item Resistencias y cables
+    \end{enumerate}
+
 \section{Diagrama Funcional}
-\begin{center}
-\begin{tikzpicture}[auto, node distance=2cm, >=stealth, line width=0.8mm]
-    % Definición de bloques
-    \node [draw, rectangle, minimum width=2.5cm, minimum height=1.5cm] (block1) {Modulo RFID};
-    \node [draw, rectangle, minimum width=2.5cm, minimum height=1.5cm, right of=block1, node distance=4cm] (block2) {Arduino NANO};
-    \node [draw, rectangle, minimum width=2.5cm, minimum height=1.5cm, right of=block2, node distance=4cm] (block3) {Client};
-    \node [draw, rectangle, minimum width=2.5cm, minimum height=1.5cm, right of=block3, node distance=4cm] (block4) {Base de Datos};
-    \node [draw, rectangle, minimum width=2.5cm, minimum height=1.5cm, above of=block1, node distance=4cm] (block5) {Usuario};
-
-
-
-    % Flechas más grandes
-    \draw[->, >=stealth, line width=1mm] (block1) -- (block2); % Grosor de la línea ajustado
-    \draw[<->] (block2) -- (block3);
-    \draw[<->] (block3) -- (block4);
-    \draw[->, >=stealth, line width=1mm] (block5) -- (block1);
+    \begin{center}
+    \begin{tikzpicture}[auto, node distance=2cm, >=stealth, line width=0.8mm]
+        % Definición de bloques
+        \node [draw, rectangle, minimum width=2.5cm, minimum height=1.5cm] (block1) {Modulo RFID};
+        \node [draw, rectangle, minimum width=2.5cm, minimum height=1.5cm, right of=block1, node distance=4cm] (block2) {Arduino NANO};
+        \node [draw, rectangle, minimum width=2.5cm, minimum height=1.5cm, right of=block2, node distance=4cm] (block3) {Client};
+        \node [draw, rectangle, minimum width=2.5cm, minimum height=1.5cm, right of=block3, node distance=4cm] (block4) {Base de Datos};
+        \node [draw, rectangle, minimum width=2.5cm, minimum height=1.5cm, above of=block1, node distance=4cm] (block5) {Usuario};
     
-    
- 
-\end{tikzpicture}
-\end{center}
+        % Flechas más grandes
+        \draw[->, >=stealth, line width=1mm] (block1) -- (block2); % Grosor de la línea ajustado
+        \draw[<->] (block2) -- (block3);
+        \draw[<->] (block3) -- (block4);
+        \draw[->, >=stealth, line width=1mm] (block5) -- (block1);
+    \end{tikzpicture}
+    \end{center}
+
 \newpage
 \section{Firmware}
-\begin{enumerate}
-    \item gpio.h:
-    \lstinputlisting[language=Octave]{gpio.h}
-    \item gpio.cpp:
-    \lstinputlisting[language=Octave]{gpio.cpp}
+\begin{enumerate}[left=0pt]
+    \item SAPEIFirwmare.ino
+    \inputminted{c++}{../SAPEIFirmware/SAPEIFirmware.ino}
     \newpage
-    \item usart.h:
-    \lstinputlisting[language=Octave]{usart.h}
-    \item usart.cpp:
-    \lstinputlisting[language=Octave]{usart.cpp}
+    \item gpio.h:
+    \inputminted{c++}{../SAPEIFirmware/src/lib/gpio.h}
+    \item gpio.cpp:
+    \inputminted{c++}{../SAPEIFirmware/src/lib/gpio.cpp}
 \end{enumerate}
-
 
 \newpage
 \section{Core}
-\begin{enumerate}
+\begin{enumerate}[left=0pt]
     \item Client.h
-    \lstinputlisting[language=Octave]{Client.h}
+    \inputminted{c++}{../SAPEICore/Client.h}
     \item Client.cpp
-    \lstinputlisting[language=Octave]{Client.cpp}
+    \inputminted{c++}{../SAPEICore/Client.cpp}
     \newpage
     \item Vehicle.h
-    \lstinputlisting[language=Octave]{Vehicle.h}
-    \newpage
+    \inputminted{c++}{../SAPEICore/Vehicle.h}
     \item Vehicle.cpp
-    \lstinputlisting[language=Octave]{Vehicle.cpp}
+    \inputminted{c++}{../SAPEICore/Vehicle.cpp}
     \newpage
     \item Person.h
-    \lstinputlisting[language=Octave]{Person.h}
+    \inputminted{c++}{../SAPEICore/Person.h}
     \item Person.cpp
-    \lstinputlisting[language=Octave]{Person.cpp}
+    \inputminted{c++}{../SAPEICore/Person.cpp}
     \newpage
     \item Error.h
-    \lstinputlisting[language=Octave]{Error.h}
+    \inputminted{c++}{../SAPEICore/Error.h}
     \item Error.cpp
-    \lstinputlisting[language=Octave]{Error.cpp}
+    \inputminted{c++}{../SAPEICore/Error.cpp}
     \newpage
     \item Database.h
-    \lstinputlisting[language=Octave]{Database.h}
+    \inputminted{c++}{../SAPEICore/DataBase.h}
     \item Database.cpp
-    \lstinputlisting[language=Octave]{Database.cpp}
+    \inputminted{c++}{../SAPEICore/DataBase.cpp}
 \end{enumerate}
+
 \newpage
 \section{Client}
-\begin{enumerate}
-    \item addcarddialog.h
-    \lstinputlisting[language=Octave]{addcarddialog.h}
-    \item addcarddialog.cpp
-    \lstinputlisting[language=Octave]{addcarddialog.cpp}
-    \newpage
-
-    \item addvehicledialog.h
-    \lstinputlisting[language=Octave]{addvehicledialog.h}
-    \item addvehicledialog.cpp
-    \lstinputlisting[language=Octave]{addvehicledialog.cpp}
-
-    \item balancehandler.h
-    \lstinputlisting[language=Octave]{balancehandler.h}
-    \item balancehandler.cpp
-    \lstinputlisting[language=Octave]{balancehandler.cpp}
-
-    \item clientlistdialog.h
-    \lstinputlisting[language=Octave]{clientlistdialog.h}
-    \item clientlistdialog.cpp
-    \lstinputlisting[language=Octave]{clientlistdialog.cpp}
-
-    \item editclientdialog.h
-    \lstinputlisting[language=Octave]{editclientdialog.h}
-    \item editclientdialog.cpp
-    \lstinputlisting[language=Octave]{editclientdialog.cpp}
-    \item editvehicledialog.h
-    \lstinputlisting[language=Octave]{editvehicledialog.h}
-    \item editvehicledialog.cpp
-    \lstinputlisting[language=Octave]{editvehicledialog.cpp}
-
+\begin{enumerate}[left=0pt]
     \item main.cpp
-    \lstinputlisting[language=Octave]{main.cpp}
+    \inputminted{c++}{../SAPEIClient/main.cpp}
+    \newpage
+    \item addcarddialog.h
+    \inputminted{c++}{../SAPEIClient/addcarddialog.h}
+    \item addcarddialog.cpp
+    \inputminted{c++}{../SAPEIClient/addcarddialog.cpp}
+    \newpage
+    \item addvehicledialog.h
+    \inputminted{c++}{../SAPEIClient/addvehicledialog.h}
+    \item addvehicledialog.cpp
+    \inputminted{c++}{../SAPEIClient/addvehicledialog.cpp}
+    \newpage
+    \item balancehandler.h
+    \inputminted{c++}{../SAPEIClient/balancehandler.h}
+    \item balancehandler.cpp
+    \inputminted{c++}{../SAPEIClient/balancehandler.cpp}
+    \newpage
+    \item clientlistdialog.h
+    \inputminted{c++}{../SAPEIClient/clientlistdialog.h}
+    \item clientlistdialog.cpp
+    \inputminted{c++}{../SAPEIClient/clientlistdialog.cpp}
+    \newpage
+    \item editclientdialog.h
+    \inputminted{c++}{../SAPEIClient/editclientdialog.h}
+    \item editclientdialog.cpp
+    \inputminted{c++}{../SAPEIClient/editclientdialog.cpp}
+    \newpage
+    \item editvehicledialog.h
+    \inputminted{c++}{../SAPEIClient/editvehicledialog.h}
+    \item editvehicledialog.cpp
+    \inputminted{c++}{../SAPEIClient/editvehicledialog.cpp}
+    \newpage
     \item mainwindow.h
-    \lstinputlisting[language=Octave]{mainwindow.h}
+    \inputminted{c++}{../SAPEIClient/mainwindow.h}
     \item mainwindow.cpp
-    \lstinputlisting[language=Octave]{mainwindow.cpp}
-
-
-
+    \inputminted{c++}{../SAPEIClient/mainwindow.cpp}
+    \newpage
     \item serialhandler.h
-    \lstinputlisting[language=Octave]{serialhandler.h}
+    \inputminted{c++}{../SAPEIClient/serialhandler.h}
     \item serialhandler.cpp
-    \lstinputlisting[language=Octave]{serialhandler.cpp}
+    \inputminted{c++}{../SAPEIClient/serialhandler.cpp}
+    \newpage
     \item vehiclelistdialog.h
-    \lstinputlisting[language=Octave]{vehiclelistdialog.h}
+    \inputminted{c++}{../SAPEIClient/vehiclelistdialog.h}
     \item vehiclelistdialog.cpp
-    \lstinputlisting[language=Octave]{vehiclelistdialog.cpp}
- 
-    
+    \inputminted{c++}{../SAPEIClient/vehiclelistdialog.cpp}
 \end{enumerate}
-\section{Server}
-
-
-\end{document}
 \end{document}
