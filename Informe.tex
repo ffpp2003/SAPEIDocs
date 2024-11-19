@@ -119,7 +119,7 @@ Palombo Franco - 401910
         \item Hardware: Desarrollar el terminal SAPEI, montarlo en una protoboard y verificar la integridad y robustez
             del mismo.
         \item Firmware: Desarrollar el firmware para el terminal SAPEI, administrar el GPIO por medio de registros,
-            emplear interrupciones y crear un protocolo de comunicación e inicializacion del terminal SAPEI.
+            emplear interrupciones y crear un protocolo de comunicación e inicialización del terminal SAPEI.
         \item Core: Desarrollar herramientas de uso general que sirven para todas las partes del proyecto.
         \item Client: Desarrollar una interfaz de usuario que interactúe de manera directa con el terminal y el Core,
             para administrar clientes, vehículos, carga de saldo y edición de propiedades.
@@ -139,24 +139,11 @@ Palombo Franco - 401910
     \end{enumerate}
 
 \section{Diagrama Funcional}
-    \begin{center}
-    \begin{tikzpicture}[auto, node distance=2cm, >=stealth, line width=0.8mm]
-        % Definición de bloques
-        \node [draw, rectangle, minimum width=2.5cm, minimum height=1.5cm] (block1) {Modulo RFID};
-        \node [draw, rectangle, minimum width=2.5cm, minimum height=1.5cm, right of=block1, node distance=4cm] (block2) {Arduino NANO};
-        \node [draw, rectangle, minimum width=2.5cm, minimum height=1.5cm, right of=block2, node distance=4cm] (block3) {Client};
-        \node [draw, rectangle, minimum width=2.5cm, minimum height=1.5cm, right of=block3, node distance=4cm] (block4) {Base de Datos};
-        \node [draw, rectangle, minimum width=2.5cm, minimum height=1.5cm, above of=block1, node distance=4cm] (block5) {Usuario};
-    
-        % Flechas más grandes
-        \draw[->, >=stealth, line width=1mm] (block1) -- (block2); % Grosor de la línea ajustado
-        \draw[<->] (block2) -- (block3);
-        \draw[<->] (block3) -- (block4);
-        \draw[->, >=stealth, line width=1mm] (block5) -- (block1);
-    \end{tikzpicture}
-    \end{center}
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=1\textwidth]{./image1.png}
+    \end{figure}
 
-\newpage
 \section{Programa}
     El programa tiene una interfaz de usuario simple pero potente. Este programa es el encargado de administrar todos
     los clientes, comunicarse con la terminal SAPEI para leer las tarjetas y enviar códigos de estado al cliente.
@@ -166,6 +153,24 @@ Palombo Franco - 401910
 
     Ademas de poder agregar clientes, el operario puede editarlos, agregarle o borrarle vehículos e incluso borrar
     clientes.
+
+\newpage
+\section{Planes a futuro}
+    El proyecto al principio tenia como objetivo tener un sistema descentralizado de almacenamiento de datos, como un
+    servidor, por el cual se comunica con todos los clientes por el protocolo HTTP. Esto permite que en la facultad,
+    haya múltiples terminales de acceso, pudiendo tener múltiples accesos a la facultad, y proveer de puestos
+    exclusivos para la carga de saldo y creación de clientes.
+
+    Debido a la escala del proyecto, no fue posible realizarlo, debido a que requería no solo desarrollar nuevas
+    herramientas de uso común en el core, si no que también requería una reescritura y reestructuración completa del
+    código en el Cliente, debido a que pasaba de ser administrador de la base de datos a un simple "endopoint" del
+    servidor, quien se convertiría en el único programa con acceso de escritura a la base de datos.
+
+    Este es un diagrama de funcionamiento de lo que habíamos planeado
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=1\textwidth]{./image2.png}
+    \end{figure}
 
 \newpage
 \section{Firmware}
