@@ -6,6 +6,8 @@
   bottom=2cm,
   includehead
 ]{geometry}
+\usepackage[utf8]{inputenc}
+%\usepackage[spanish]{babel} % Configuración de idioma
 \usepackage{fancyhdr}
 \usepackage{etoolbox}
 \usepackage{titlesec}
@@ -22,13 +24,14 @@
     frame=single,      % Opcional: agrega un marco al código
     framesep=2mm,     % Opcional: separación entre el marco y el texto
     fontsize=\scriptsize,   % Opcional: cambia el tamaño de la fuente
-    breaklines
+    breaklines,
+    encoding=utf8
 }
 
 \pagestyle{fancy}
 \pagestyle{fancy}
 \lhead{UTN-FRC}
-\chead{Informatica II}
+\chead{Informática II}
 \rhead{2R3}
 \cfoot{\thepage}
 \setlength{\headwidth}{\textwidth} % Hace que el ancho del encabezado coincida con el ancho del texto
@@ -41,7 +44,7 @@
 
 \title{%
   \fontsize{25}{0}\selectfont Universidad Tecnológica Nacional \\
-  \fontsize{22}{30}\selectfont Informatica 2 \\
+  \fontsize{22}{30}\selectfont Informática 2 \\
   \fontsize{18}{25}\selectfont SAPEI\\
   \fontsize{16}{20}\selectfont Sistema Alternativo de Pago para el Estacionamiento Institucional\\
 }
@@ -72,38 +75,57 @@ Palombo Franco - 401910
 
 \begin{document}
 \maketitle
-\section{Problema y Solucion Planteada}
-    El problema que observamos esta en el transito generado por los vehiculos, siendo este generado por la fila de
-    autos que hay en el ingreso al estacionamiento de la facultad, lo que obstruye la via publicam reduciendo el flujo
-    de los vehiculos y produciendo embotellamientos. La razon por la cual se genera la fila de autosm es por la
-    lentitud del sistema de ingreso al estacionamiento. Este sistema requiere de un operario que ingrese la patente
-    del vehiculo de manera manual, el cual procede a generar un ticket y automaticamente se le descuenta el monto
-    correspondiente al usuario.
+\section{Motivación}
+    El tránsito en los alrededores de la Universidad Tecnológica Nacional, Facultad Regional Córdoba, es algo que es
+    imposible de resolver, en especial en horas pico, o de cambio de turno. Ya habiendo asistido durante dos años
+    consecutivos a cursar la carrera de ingeniería electrónica, uno empieza a prestarle atención al detalle de los
+    eventos del día a día mientras estamos presentes en la facultad.
 
+    Algo que como grupo hemos experimentado todos, es el tránsito que hay en las zonas circundantes a los ingresos
+    para vehículos de la facultad. Es algo que se puede percibir siendo usuario del transporte público, peatón o
+    conductor, ya que frenan todo. Este tránsito es perjudicial para todo aquel que quiera circular por cualquiera
+    de las vías a las que se conecten los ingresos para vehículos.
 
-    Como grupo se nos ocurrio la idea de acelerar una parte del proceso y es a la hora de pagar, en la cual
-    implementando un sistemas Contactless con tarjetas RFID unicas para cada persona con la informacion
-    correspondiente. De este modo, no es necesario que el operario tenga que ingresar la patente del vehiculo
-    manualmente para poder generar el ticket, ya que se utilizara tanto para el ingreso y egreso la misma tarjeta. De
-    esta forma, se puede mantener un conteo de vehiculos en el estacionamiento y ademas evitar la cantidad de papel
-    que se utiliza de forma deficiente en un dia.
+\section{Definición del problema}
+    Como se mencionó previamente, el problema está en el tránsito generado por los vehículos. Este tránsito (en gran
+    parte) es generado por la fila de autos que hay en el ingreso al estacionamiento de la facultad, lo que obstruye
+    la vía pública, reduciendo el flujo de vehículos y produciendo embotellamientos. La razón por la cual se genera la
+    fila de autos, es por la lentitud del sistema de ingreso al estacionamiento. Este sistema requiere de un operario
+    que ingrese la patente del vehículo de manera manual, el cual procede a generar un ticket de ingreso, y
+    automáticamente se le descuenta el monto correspondiente al usuario.
 
-\section{Planificacion}
-    Para poder llevar a cabo esta idea, empezamos por la organizacion de la misma y las necesidades o posibles
-    problemas del proyecto. Para resolver lo primero, decidimos usar Github y su sistema ramas creando asi los
-    repositorios necesarios para distribuir de forma efectiva las partes de trabajo y asi el proyecto pueda avanzar.
-    Creando adentro de los mismos repositorios los problemas y necesidades que surgian, asignandolos asi entre nosotros.
+\section{Solución propuesta}
+    La alternativa que planteamos como solución, consta de un sistema Contactless, en el cual el usuario tiene en su
+    posesión una tarjeta RFID, emitida por la entidad correspondiente, la cual tiene la identificación del mismo
+    usuario. De este modo, no es necesario que el operario tenga que ingresar la patente del vehículo manualmente para
+    poder generar el ticket, ya que el mismo no tiene razón de ser creado, debido a que para el ingreso o el egreso,
+    se utiliza la tarjeta RFID. De tal forma, se puede mantener el conteo de vehículos en el estacionamiento, y además,
+    se evita desperdiciar papel que se emite y se desecha en el mismo día.
+
+\newpage
+\section{Planificación}
+    Para poder llevar a cabo esta idea, empezamos por la organización de la misma y las necesidades o posibles
+    problemas del proyecto. Decidimos usar Github y su sistema de control de versiones
+    creando así los repositorios necesarios para distribuir de forma efectiva las partes de trabajo y así el proyecto
+    pueda avanzar en simultaneo, permitiendo que algunos integrantes se centren en avanzar en partes especificas
+    del proyecto, sin interferir en los avances del resto de los integrantes. Ademas, esta separación, permitió que
+    los problemas se mantengan aislados, por repositorio, evitando así la cruza de errores y fallas, y mejorar el
+    mantenimiento del código.
 
 \section{Partes del Proyecto}
-    Para resolver la segunda parte se penso por dividir el proyecto en proyecto en 4 partes, teniendo asi:
+    La distribución de repositorios, y la distribución de trabajos, se realizo teniendo en cuenta las habilidades de
+    cada uno de los integrantes. Las partes del proyecto y sus requisitos son los siguientes:
     \begin{enumerate}
-        \item Hardware
-        \item Firmware
-        \item Core
-        \item Client
+        \item Hardware: Desarrollar el terminal SAPEI, montarlo en una protoboard y verificar la integridad y robustez
+            del mismo.
+        \item Firmware: Desarrollar el firmware para el terminal SAPEI, administrar el GPIO por medio de registros,
+            emplear interrupciones y crear un protocolo de comunicación e inicializacion del terminal SAPEI.
+        \item Core: Desarrollar herramientas de uso general que sirven para todas las partes del proyecto.
+        \item Client: Desarrollar una interfaz de usuario que interactúe de manera directa con el terminal y el Core,
+            para administrar clientes, vehículos, carga de saldo y edición de propiedades.
     \end{enumerate}
-    \newpage
 
+\newpage
 \section{Hardware}
     Los componentes usados para el hardware fueron:
     \begin{enumerate}
@@ -133,6 +155,17 @@ Palombo Franco - 401910
         \draw[->, >=stealth, line width=1mm] (block5) -- (block1);
     \end{tikzpicture}
     \end{center}
+
+\newpage
+\section{Programa}
+    El programa tiene una interfaz de usuario simple pero potente. Este programa es el encargado de administrar todos
+    los clientes, comunicarse con la terminal SAPEI para leer las tarjetas y enviar códigos de estado al cliente.
+
+    La interfaz esta compuesta por una sección de acciones, una ventana de estado, y una ventana de registro de
+    operaciones.
+
+    Ademas de poder agregar clientes, el operario puede editarlos, agregarle o borrarle vehículos e incluso borrar
+    clientes.
 
 \newpage
 \section{Firmware}
