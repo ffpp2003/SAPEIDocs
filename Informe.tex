@@ -102,6 +102,16 @@ Palombo Franco - 401910
     se utiliza la tarjeta RFID. De tal forma, se puede mantener el conteo de vehículos en el estacionamiento, y además,
     se evita desperdiciar papel que se emite y se desecha en el mismo día.
 
+\section{Objetivos}
+    \begin{itemize}
+        \item Ahorrar tiempo en el ingreso al estacionamiento de la institucion.
+        \item Proveer una interfaz de usuario para el operario con herramientas de edicion e insercion de clientes.
+        \item Almacenar eficientemente los datos de los clientes de manera local.
+        \item Lograr un intercambio de información bidireccional entre dos arquitecturas. En este caso el entre el PC
+            con linux y un arduino nano.
+        \item Llevar a cabo la construccion de un prototipo del hardware.
+    \end{itemize}
+
 \newpage
 \section{Planificación}
     Para poder llevar a cabo esta idea, empezamos por la organización de la misma y las necesidades o posibles
@@ -264,4 +274,63 @@ Palombo Franco - 401910
     \item vehiclelistdialog.cpp
     \inputminted{c++}{../SAPEIClient/vehiclelistdialog.cpp}
 \end{enumerate}
+
+\newpage
+\section{Conclusiones}
+    El proyecto SAPEI (Sistema Alternativo de Pago para el Estacionamiento Institucional) ha logrado cumplir con éxito
+    los objetivos planteados, demostrando en el hipotetico caso de ser aplicada, ser una solución eficiente y práctica
+    para abordar los problemas relacionados con el tiempo de ingreso vehicular al estacionamiento de la institución.
+    A continuación, se destacan los principales logros obtenidos:
+    \begin{itemize}
+        \item Reducción del tiempo de ingreso al estacionamiento: La implementación del sistema basado en tarjetas RFID
+          eliminó la necesidad de ingreso manual de datos por parte de un operario, acelerando significativamente el
+          proceso de entrada y salida de vehículos.
+
+        \item Desarrollo de una interfaz de usuario para el operario: Se diseñó y desarrolló una interfaz gráfica
+          intuitiva y funcional, que permite a los operarios gestionar de manera eficiente la base de datos de clientes.
+          Las herramientas de edición e inserción de clientes han facilitado la administración del sistema, optimizando
+          el tiempo y esfuerzo requeridos para estas tareas.
+
+        \item Almacenamiento eficiente de datos: La base de datos local implementada con SQLite garantizó un
+          almacenamiento seguro y organizado de la información de los clientes y vehículos.
+
+        \item Intercambio bidireccional de información entre arquitecturas: Se logró establecer una comunicación
+          confiable y eficiente entre el Arduino Nano y el sistema operativo Linux en la PC. Este intercambio de datos
+          en tiempo real permitió la integración armoniosa del hardware con la aplicación cliente, asegurando un
+          funcionamiento fluido del sistema en su conjunto.
+
+        \item Construcción de un prototipo funcional del hardware: El desarrollo y montaje del prototipo en una
+          protoboard validó la viabilidad del sistema en un entorno físico. La integración de componentes como el
+          módulo RFID, LEDs, y un buzzer permitió simular y probar el sistema completo, garantizando su correcto
+          desempeño.
+    \end{itemize}
+
+    En resumen, el éxito del proyecto radica en la combinación efectiva de tecnologías de hardware y software para
+    resolver un problema concreto de manera innovadora y sostenible. Los resultados obtenidos no solo cumplen con los
+    objetivos iniciales, sino que también abren la puerta a futuras mejoras, como la expansión del sistema a múltiples
+    terminales o la implementación de almacenamiento en la nube para una mayor escalabilidad.
+
+\newpage
+\section{Anexos}
+    Repositorios de Github:
+      \begin{figure}[H]
+      \centering
+      \begin{minipage}{0.3\textwidth}
+        \centering
+        \includegraphics[width=1\textwidth]{./core.png}
+        \textit{SAPEICore}
+      \end{minipage}
+      \hspace{0.5cm}
+      \begin{minipage}{0.3\textwidth}
+        \centering
+        \includegraphics[width=1\textwidth]{./client.png}
+        \textit{SAPEIClient}
+      \end{minipage}
+      \hspace{0.5cm}
+      \begin{minipage}{0.3\textwidth}
+        \centering
+        \includegraphics[width=1\textwidth]{./firmware.png}
+        \textit{SAPEIFirmware}
+      \end{minipage}
+    \end{figure}
 \end{document}
